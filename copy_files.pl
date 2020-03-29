@@ -13,14 +13,15 @@ if( $0 =~ m/\.pl$/i) {
 
 my $source = "";
 my $target = "";
-my $help = 0;
+our $opt_help = 0;
 
   GetOptions ("quelle|source=s" => \$source,    # source folder
               "ziel|target=s" => \$target)    # target folder
-			  '?|h|help=s' => \$help)    # target folder
+			 # '?|h|help' )   # help
   or print_usage();
 
-  print_usage() if $help;
+  print_usage() unless $source;
+  print_usage() unless $target;
   
 my $folderinfo;
 my @file_list;
@@ -29,16 +30,18 @@ my $tag;
 sub print_usage {
     printf "USAGE:\n";
 	printf "\n";
-	printf " copyfiles.pl -?|h|help\n");
+	printf " perl -w copyfiles.pl [options]\n";
 	printf "\n";
     printf " copyfiles.pl -source \"c:\\mp3\\bibi und Tina\" -target g:\\02 \n";
-	printf "  assumption: c:\\mp3\\ holds the mp3 files. g:\\ is hte SDcard folder.\n";
+	printf "  assumption: c:\\mp3\\bibi holds the mp3 files. g:\\ is the SDcard folder.\n";
+	printf "         ex: c:\\mp3\\bibi\\01-file.mp3, c:\\mp3\\bibi\\02-file.mp3, ..\n";
 	printf "  checks if folder doesn't exist and start copy.\n";
 	printf "\n";
     printf " copyfiles.pl -quelle \"c:\\mp3\\bibi und Tina\" -ziel g:\\02 \n";
-	printf "  Annahme: c:\\mp3\\ ist das quellverzeichnisder mp3 dateien.\n";
-    printf "           g:\\ ist das Hauptverzeichnis der SDkarte.\n";
-	printf "  Das Programm prüft, ob das verzeichnis moch nicht existiert, und startet erst dann das Kopieren.\n";
+	printf "  Annahme: c:\\mp3\\bibi ist das Quellverzeichnis der mp3 Dateien.\n";
+	printf "         Bsp: c:\\mp3\\bibi\\01-datei.mp3, c:\\mp3\\bibi\\02-datei.mp3, ..\n";
+    printf "           g:\\ ist das Hauptverzeichnis der SD-Karte.\n";
+	printf "  Das Programm prueft, ob das Verzeichnis noch nicht existiert, und startet erst dann das Kopieren.\n";
     exit;
 }
 printf "read SOURCE folder '$source'\n";
@@ -92,5 +95,3 @@ if( "" ne $folderinfo ){
 	close($fh);
 }
 		
-
-
